@@ -1,12 +1,8 @@
 # Mustapha Benkada — Portfolio
 
-A single-page, dependency-free portfolio (plain HTML/CSS/JS — no build step) built from
-Mustapha's CV.
+A single-page, dependency-free portfolio (plain HTML/CSS/JS — no build step).
 
 ## Preview locally
-
-Just open `index.html` in a browser, or serve it so relative paths behave exactly like
-in production:
 
 ```bash
 npx serve .
@@ -14,25 +10,42 @@ npx serve .
 python3 -m http.server 8080
 ```
 
-Then visit the printed local URL.
+## Deploy to GitHub Pages
 
-## Deploy
+### 1. Log in (one time)
 
-Any static host works, with zero configuration:
+```bash
+gh auth login
+```
 
-- **Netlify / Vercel**: drag-and-drop the `mustapha-portfolio` folder onto the dashboard,
-  or connect the folder as a Git repo for automatic deploys.
-- **GitHub Pages**: push this folder to a repo, enable Pages on the `main` branch
-  (root), done.
+Choose GitHub.com → HTTPS → Login with a web browser.
+
+### 2. Create the repo and push
+
+From this folder:
+
+```bash
+gh repo create mustapha-portfolio --public --source=. --remote=origin --push
+```
+
+### 3. Enable GitHub Pages
+
+```bash
+gh api repos/{owner}/{repo}/pages -X POST -f build_type=legacy -f source[branch]=main -f source[path]=/
+```
+
+Or in the browser: **Settings → Pages → Source: Deploy from a branch → `main` / `/ (root)` → Save**.
+
+Your site will be live at:
+
+`https://<your-github-username>.github.io/mustapha-portfolio/`
+
+(It can take 1–2 minutes after the first push.)
 
 ## Customize
 
-- Content lives directly in `index.html` (hero, about, skills, experience, highlights,
-  education, contact) — edit text/links there.
-- Colors, fonts, spacing and animations live in `assets/css/style.css` under the
-  `:root` custom properties at the top (`--accent-1/2/3/4`, fonts, radius).
-- Interaction (nav, scroll-spy, reveal animations, typewriter, cursor glow) lives in
-  `assets/js/main.js`.
-- Add a real photo by dropping a file into `assets/img/` and referencing it from the
-  hero section in `index.html` (there's currently no photo embedded, since none could
-  be extracted from the PDF).
+- Content: `index.html`
+- Styles: `assets/css/style.css`
+- Interactions: `assets/js/main.js`
+- CV: `assets/cv/`
+- Project previews: `assets/img/projects/`
